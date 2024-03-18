@@ -1,0 +1,24 @@
+# This is a sample deployment.yaml helper file to be used as a library chart
+{{- define "mylibchart.deployment" -}}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment
+spec:
+  replicas: {{ .Values.replicas | default 1 }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ .Release.Name }}-container
+        image: {{ .Values.image }}
+        ports:
+        - containerPort: {{ .Values.port }}
+
+{{- end -}}
